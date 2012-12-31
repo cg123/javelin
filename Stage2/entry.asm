@@ -49,7 +49,9 @@ entry:
 	push dummy_test
 	call p2r_call
 	add esp, 5*4
-	jmp $
+
+	cli
+	hlt
 
 dummy_test:
 	ret

@@ -1,0 +1,7 @@
+hd.img
+*.bin
+*.BIN
+*.o
+*.sym
+*.map
+*.MAP

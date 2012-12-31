@@ -45,8 +45,8 @@ times 3-($-$$) nop
 ; Usually the entry point. Sometimes? A temporary cluster number.
 temp_cluster:
 entry:
-	jmp 0x00:fix_cs
-fix_cs:
+	jmp 0x00:.fix_cs
+.fix_cs:
 	mov [bpb_driveNum], dl
 
 init_stack:
@@ -55,9 +55,7 @@ init_stack:
 	xor ax,ax
 	mov ss,ax
 	mov ds,ax
-	mov es,ax
 	mov sp, 0x7bfc
-	sti
 
 check_int13h:
 	; Check for int 13h extensions

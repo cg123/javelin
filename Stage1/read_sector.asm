@@ -54,11 +54,11 @@ read_sector_43h:
 	mov di, sp
 
 	; Construct read parameter block on stack
-	; All values are words - pushed as bytes to save code space
 	push dword 0 		; LBA high 32 bits
 	push eax 			; LBA low 32 bits
 	push es 			; buffer segment
 	push bx 			; buffer offset
+	; Both values are words - pushed as bytes to save code space
 	push byte 1 		; number of sectors to read
 	push byte 16 		; size of parameter block
 

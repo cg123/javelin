@@ -82,7 +82,9 @@ p2r_call:
 [global real_to_pmode]
 [bits 16]
 real_to_pmode:
-	; Turn our return address into 32 bits on the stack
+	; Pop the return address off the stack, zero-extend it, and push
+	; it back. When 'ret' is executed in protected mode, it will get
+	; the 32 bits it craves.
 	pop ax
 	push 0x0000
 	push ax
@@ -144,7 +146,7 @@ pmode_to_real:
 
 	jmp 0x00:.in_rmode
 .in_rmode:
-	; Set data segment registers
+	; Set data segment registers to zero
 	xor ax,ax
 	mov ds,ax
 	mov es,ax
@@ -152,6 +154,8 @@ pmode_to_real:
 	mov gs,ax
 	mov ss,ax
 
+	; Pop the first sixteen bits of the return address, then skip
+	; over the next sixteen.
 	pop ax
 	add sp, 2
 	sti
