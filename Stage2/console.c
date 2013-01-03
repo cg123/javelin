@@ -25,8 +25,6 @@
 #include "pio.h"
 
 #define VMEM_BASE ((uint8_t*)0xB8000)
-#define CON_WIDTH 80
-#define CON_HEIGHT 25
 
 static int cursor_pos;
 static uint8_t attribute;
