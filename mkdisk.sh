@@ -53,7 +53,7 @@ drive q:
 
 mpartition -I -B mbr.bin q: 2>/dev/null
 mpartition -c -t $CYLINDERS -h 16 -s 63 q:
-mformat -v JAVELIN -B Stage1/stage1.bin q:
+mformat -v JAVELIN -B Stage1/bin/stage1.bin q:
 mcopy $FOLDER/* q:/
 
 if [ -e ~/.mtoolsrc.old ]; then

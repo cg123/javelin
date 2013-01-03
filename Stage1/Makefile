@@ -23,15 +23,15 @@
 
 include ../Makefile.inc
 
-.PHONY: all clean
+.PHONY: directories all clean
 
-all: stage1.bin
+all: directories bin/stage1.bin
+directories:
+	mkdir -p bin
 clean:
-	rm -f *.bin
-	rm -f *.o
 	rm -f *.map
-	rm -f *.sym
+	rm -f bin/*
 
-stage1.bin: stage1.asm bpb.asm read_sector.asm
-	$(AS) stage1.asm -f bin -o stage1.bin
-	python nasmmap2sym.py stage1.map > stage1.sym; rm stage1.map
+bin/stage1.bin: stage1.asm bpb.asm read_sector.asm
+	$(AS) stage1.asm -f bin -o bin/stage1.bin
+	python nasmmap2sym.py stage1.map > bin/stage1.sym; rm stage1.map

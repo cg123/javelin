@@ -25,17 +25,19 @@ include ../Makefile.inc
 
 CFLAGS := $(CFLAGS) -m32
 
-OBJS = entry.o pmode.o
+SRC = entry.asm pmode.asm
+OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(patsubst %.asm,$(OBJ_DIR)/%.o,$(SRC)))
 
-.PHONY: all clean
+.PHONY: directories all clean
 
-all: JAVELIN.BIN
+all: directories bin/javelin.bin
+directories:
+	mkdir -p obj bin
 clean:
-	rm -f *.bin *.BIN
-	rm -f *.o
-	rm -f *.map *.MAP
-	rm -f *.sym
+	rm -f obj/*
+	rm -f bin/*
+	rm -f *.map
 
-JAVELIN.BIN: $(OBJS) link.ld
-	$(LD) -T link.ld $^ -o JAVELIN.BIN -Map JAVELIN.MAP
-	python ldmap2sym.py JAVELIN.MAP > javelin.sym
+bin/javelin.bin: $(OBJS) link.ld
+	$(LD) -T link.ld $^ -o bin/javelin.bin -Map javelin.map
+	python ldmap2sym.py javelin.map > bin/javelin.sym && rm javelin.map

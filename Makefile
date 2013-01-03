@@ -28,7 +28,7 @@ include Makefile.inc
 all: hd.img
 
 hd.img: Stage1 Stage2
-	cp Stage2/JAVELIN.* Image/
+	cp Stage2/bin/* Image/
 	./mkdisk.sh Image hd.img
 Stage1:
 	@$(MAKE) -C Stage1 all

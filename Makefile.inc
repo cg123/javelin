@@ -28,6 +28,7 @@ CC=$(PREFIX)/bin/$(TARGET)-gcc
 CXX=$(PREFIX)/bin/$(TARGET)-g++
 AS=`which yasm`
 LD=$(PREFIX)/bin/$(TARGET)-ld
+OBJ_DIR=obj
 
 WARNINGS= 	-Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
 			-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
@@ -37,5 +38,7 @@ WARNINGS= 	-Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
 
 CFLAGS=-Os -ffreestanding -std=c99 $(WARNINGS)
 
-%.o: %.asm
+$(OBJ_DIR)/%.o: %.asm
 	$(AS) $(ASFLAGS) $< -f elf -o $@
+$(OBJ_DIR)/%.o: %.c
+	$(CC) $(CFLAGS) $< -c -o $@

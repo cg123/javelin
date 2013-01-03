@@ -19,5 +19,5 @@ port_e9_hack: enabled=1
 
 clock: sync=both, time0=utc, rtc_sync=1
 
-debug_symbols: file=Stage1\stage1.sym
-debug_symbols: file=Stage2\javelin.sym
+debug_symbols: file=Stage1\bin\stage1.sym
+debug_symbols: file=Stage2\bin\javelin.sym
