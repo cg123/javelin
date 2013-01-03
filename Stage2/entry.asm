@@ -34,79 +34,79 @@ extern cmain
 section .bootstrap
 [bits 16]
 entry:
-	cli
-	xor ax,ax
-	mov ss,ax
-	mov sp,stacktop
+    cli
+    xor ax,ax
+    mov ss,ax
+    mov sp,stacktop
 
-	call enable_a20
-	call real_to_pmode
+    call enable_a20
+    call real_to_pmode
 [bits 32]
-	xchg bx, bx
+    xchg bx, bx
 
-	call cmain
+    call cmain
 
-	xchg bx, bx
+    xchg bx, bx
 
-	push 0x1234
-	push 0x5678
-	push 0xabcd
-	push 0xef01
-	push dummy_test
-	call p2r_call
-	add esp, 5*4
+    push 0x1234
+    push 0x5678
+    push 0xabcd
+    push 0xef01
+    push dummy_test
+    call p2r_call
+    add esp, 5*4
 
-	cli
-	hlt
+    cli
+    hlt
 
 dummy_test:
-	ret
+    ret
 
 
 section .text
 
 enable_a20:
-	cli
-	call    .wait
-	mov     al,0xAD
-	out     0x64,al
+    cli
+    call    .wait
+    mov     al,0xAD
+    out     0x64,al
 
-	call    .wait
-	mov     al,0xD0
-	out     0x64,al
+    call    .wait
+    mov     al,0xD0
+    out     0x64,al
 
-	call    .wait2
-	in      al,0x60
-	push    eax
+    call    .wait2
+    in      al,0x60
+    push    eax
 
-	call    .wait
-	mov     al,0xD1
-	out     0x64,al
+    call    .wait
+    mov     al,0xD1
+    out     0x64,al
 
-	call    .wait
-	pop     eax
-	or      al,2
-	out     0x60,al
+    call    .wait
+    pop     eax
+    or      al,2
+    out     0x60,al
 
-	call    .wait
-	mov     al,0xAE
-	out     0x64,al
+    call    .wait
+    mov     al,0xAE
+    out     0x64,al
 
-	call    .wait
-	sti
-	ret
+    call    .wait
+    sti
+    ret
 
 .wait:
-	in      al,0x64
-	test    al,2
-	jnz     .wait
-	ret
+    in      al,0x64
+    test    al,2
+    jnz     .wait
+    ret
 
 .wait2:
-	in      al,0x64
-	test    al,1
-	jz      .wait2
-	ret
+    in      al,0x64
+    test    al,1
+    jz      .wait2
+    ret
 
 section .bss
 resd 4096

@@ -28,15 +28,15 @@
 #include <stdint.h>
 
 // p2r_call
-// 	Call a function in real mode.
+//  Call a function in real mode.
 // INPUTS:
-// 	void*    func - the physical address of the function to call
-// 	uint16_t ax   - initial value for AX register
-// 	uint16_t bx   - initial value for BX register
-// 	uint16_t cx   - initial value for CX register
-// 	uint16_t dx   - initial value for DX register
+//  void*    func - the physical address of the function to call
+//  uint16_t ax   - initial value for AX register
+//  uint16_t bx   - initial value for BX register
+//  uint16_t cx   - initial value for CX register
+//  uint16_t dx   - initial value for DX register
 // RETURN:
-// 	Value of AX after function return
+//  Value of AX after function return
 uint32_t p2r_call(void* func, uint16_t ax, uint16_t bx, uint16_t cx, uint16_t dx);
 
 #endif//_STAGE2_PMODE_H_

@@ -26,140 +26,140 @@ section .text
 ; --------------------------------
 ; p2r_call
 ; Inputs:
-;	[ESP+4]		- function to call in real mode
-;	[ESP+8]		- AX
-;	[ESP+12]	- BX
-;	[ESP+16]	- CX
-;	[ESP+20]	- DX
+;   [ESP+4]     - function to call in real mode
+;   [ESP+8]     - AX
+;   [ESP+12]    - BX
+;   [ESP+16]    - CX
+;   [ESP+20]    - DX
 ; Outputs:
-;	EAX 	- zero-extended AX after call
+;   EAX     - zero-extended AX after call
 [global p2r_call]
 [bits 32]
 p2r_call:
-	push ebp
-	mov ebp, esp
+    push ebp
+    mov ebp, esp
 
-	; Store potentially clobbered registers & jump to real mode
-	push ebx
-	push esi
-	push edi
-	call pmode_to_real
+    ; Store potentially clobbered registers & jump to real mode
+    push ebx
+    push esi
+    push edi
+    call pmode_to_real
 [bits 16]
 
-	; Set registers from stack
-	mov ax, word [bp+12]
-	mov bx, word [bp+16]
-	mov cx, word [bp+20]
-	mov dx, word [bp+24]
+    ; Set registers from stack
+    mov ax, word [bp+12]
+    mov bx, word [bp+16]
+    mov cx, word [bp+20]
+    mov dx, word [bp+24]
 
-	; Call function
-	mov di, word [bp+8]
-	call di
+    ; Call function
+    mov di, word [bp+8]
+    call di
 
-	; Store resulting AX
-	push 0x0000
-	push ax
+    ; Store resulting AX
+    push 0x0000
+    push ax
 
-	; Return to protected mode
-	call real_to_pmode
+    ; Return to protected mode
+    call real_to_pmode
 [bits 32]
-	; Restore registers
-	pop eax
-	pop edi
-	pop esi
-	pop ebx
+    ; Restore registers
+    pop eax
+    pop edi
+    pop esi
+    pop ebx
 
-	mov esp, ebp
-	pop ebp
-	ret
+    mov esp, ebp
+    pop ebp
+    ret
 
 ; --------------------------------
 ; real_to_pmode
 ; Inputs:
-;	None
+;   None
 ; Outputs:
-;	None
+;   None
 [global real_to_pmode]
 [bits 16]
 real_to_pmode:
-	; Pop the return address off the stack, zero-extend it, and push
-	; it back. When 'ret' is executed in protected mode, it will get
-	; the 32 bits it craves.
-	pop ax
-	push 0x0000
-	push ax
+    ; Pop the return address off the stack, zero-extend it, and push
+    ; it back. When 'ret' is executed in protected mode, it will get
+    ; the 32 bits it craves.
+    pop ax
+    push 0x0000
+    push ax
 
-	cli
+    cli
 
-	; Load GDT
-	lgdt [gdtptr]
+    ; Load GDT
+    lgdt [gdtptr]
 
-	; Enable PE bit in CR0
-	mov eax, cr0
-	or eax,1
-	mov cr0, eax
+    ; Enable PE bit in CR0
+    mov eax, cr0
+    or eax,1
+    mov cr0, eax
 
-	; Jump to protected mode
-	jmp 0x08:.in_pmode
+    ; Jump to protected mode
+    jmp 0x08:.in_pmode
 [bits 32]
 .in_pmode:
-	; Set data segment registers
-	mov ax, 0x10
-	mov ds,ax
-	mov es,ax
-	mov fs,ax
-	mov gs,ax
-	mov ss,ax
+    ; Set data segment registers
+    mov ax, 0x10
+    mov ds,ax
+    mov es,ax
+    mov fs,ax
+    mov gs,ax
+    mov ss,ax
 
-	ret
+    ret
 
 ; --------------------------------
 ; pmode_to_real
 ; Inputs:
-;	None
+;   None
 ; Outputs:
-;	None
+;   None
 [global pmode_to_real]
 [bits 32]
 pmode_to_real:
-	cli
+    cli
 
-	; Jump to 16-bit protected mode
-	jmp 0x18:.pm16
+    ; Jump to 16-bit protected mode
+    jmp 0x18:.pm16
 [bits 16]
 .pm16:
-	; Use 16-bit data selectors
-	mov ax, 0x20
-	mov ds,ax
-	mov es,ax
-	mov fs,ax
-	mov gs,ax
-	mov ss,ax
+    ; Use 16-bit data selectors
+    mov ax, 0x20
+    mov ds,ax
+    mov es,ax
+    mov fs,ax
+    mov gs,ax
+    mov ss,ax
 
-	; Load IVT
-	lidt [idtptr]
+    ; Load IVT
+    lidt [idtptr]
 
-	; Disable PE bit in CR0
-	mov eax, cr0
-	and eax, ~1
-	mov cr0, eax
+    ; Disable PE bit in CR0
+    mov eax, cr0
+    and eax, ~1
+    mov cr0, eax
 
-	jmp 0x00:.in_rmode
+    jmp 0x00:.in_rmode
 .in_rmode:
-	; Set data segment registers to zero
-	xor ax,ax
-	mov ds,ax
-	mov es,ax
-	mov fs,ax
-	mov gs,ax
-	mov ss,ax
+    ; Set data segment registers to zero
+    xor ax,ax
+    mov ds,ax
+    mov es,ax
+    mov fs,ax
+    mov gs,ax
+    mov ss,ax
 
-	; Pop the first sixteen bits of the return address, then skip
-	; over the next sixteen.
-	pop ax
-	add sp, 2
-	sti
-	jmp ax
+    ; Pop the first sixteen bits of the return address, then skip
+    ; over the next sixteen.
+    pop ax
+    add sp, 2
+    sti
+    jmp ax
 
 section .data
 
@@ -175,38 +175,38 @@ gdtptr:
 [global gdt.ds16]
 gdt:
 .null:
-	dw 0x0000
-	dw 0x0000
-	db 0x00
-	db 0x00
-	db 0x00
-	db 0x00
+    dw 0x0000
+    dw 0x0000
+    db 0x00
+    db 0x00
+    db 0x00
+    db 0x00
 .cs32:
-	dw 0xFFFF
-	dw 0x0000
-	db 0x00
-	db 10011010b
-	db 11001111b
-	db 0x00
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00
+    db 10011010b
+    db 11001111b
+    db 0x00
 .ds32:
-	dw 0xFFFF
-	dw 0x0000
-	db 0x00
-	db 10010010b
-	db 11001111b
-	db 0x00
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00
+    db 10010010b
+    db 11001111b
+    db 0x00
 .cs16:
-	dw 0xFFFF
-	dw 0x0000
-	db 0x00
-	db 10011010b
-	db 10001111b
-	db 0x00
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00
+    db 10011010b
+    db 10001111b
+    db 0x00
 .ds16:
-	dw 0xFFFF
-	dw 0x0000
-	db 0x00
-	db 10010010b
-	db 10001111b
-	db 0x00
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00
+    db 10010010b
+    db 10001111b
+    db 0x00
 .end:

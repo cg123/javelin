@@ -2,14 +2,14 @@
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met: 
+# modification, are permitted provided that the following conditions are met:
 #
 # 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer. 
+#    list of conditions and the following disclaimer.
 # 2. Redistributions in binary form must reproduce the above copyright notice,
 #    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution. 
-# 
+#    and/or other materials provided with the distribution.
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -26,27 +26,28 @@ import re
 
 symbol = re.compile(r"([0-9a-fA-F]+)[ \t]+([0-9a-fA-F]+)[ \t]+([a-zA-Z_0-9\.]+)")
 
+
 def main(argv):
-	if len(argv) != 2:
-		print 'usage:\n\tpython %s <input>' % argv[0]
-		return 1
-	f = open(argv[1],'r')
-	data = f.readlines()
-	f.close()
+    if len(argv) != 2:
+        print 'usage:\n\tpython %s <input>' % argv[0]
+        return 1
+    f = open(argv[1], 'r')
+    data = f.readlines()
+    f.close()
 
-	symbols = []
-	for line in data:
-		m = symbol.match(line)
-		if m:
-			chunks = m.group(1, 2, 3)
-			if chunks[0] != chunks[1]:
-				print 'ERROR: %s != %s' % (chunks[0], chunks[1])
-				return 1
-			symbols.append((int(chunks[0],16), chunks[2]))
-	symbols.sort()
-	for (addr, name) in symbols:
-		print hex(addr), name
-	return 0
+    symbols = []
+    for line in data:
+        m = symbol.match(line)
+        if m:
+            chunks = m.group(1, 2, 3)
+            if chunks[0] != chunks[1]:
+                print 'ERROR: %s != %s' % (chunks[0], chunks[1])
+                return 1
+            symbols.append((int(chunks[0], 16), chunks[2]))
+    symbols.sort()
+    for (addr, name) in symbols:
+        print hex(addr), name
+    return 0
 
-if __name__=='__main__':
-	sys.exit(main(sys.argv))
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

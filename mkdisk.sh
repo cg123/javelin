@@ -23,13 +23,13 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 if [ $# -ne 2 ]; then
-	echo 'Usage:'
-	echo "$0 <folder> <output>"
-	exit 1
+    echo 'Usage:'
+    echo "$0 <folder> <output>"
+    exit 1
 fi
 
 if [ -e ~/.mtoolsrc ]; then
-	cp ~/.mtoolsrc ~/.mtoolsrc.old
+    cp ~/.mtoolsrc ~/.mtoolsrc.old
 fi
 
 
@@ -48,7 +48,7 @@ dd if=/dev/zero of=$IMAGE bs=504K count=$CYLINDERS &> /dev/null
 
 echo "
 drive q:
-	file=\"`pwd`/$IMAGE\" partition=1
+    file=\"`pwd`/$IMAGE\" partition=1
 " > ~/.mtoolsrc
 
 mpartition -I -B mbr.bin q: 2>/dev/null
@@ -57,7 +57,7 @@ mformat -v JAVELIN -B Stage1/bin/stage1.bin q:
 mcopy $FOLDER/* q:/
 
 if [ -e ~/.mtoolsrc.old ]; then
-	mv ~/.mtoolsrc.old ~/.mtoolsrc
+    mv ~/.mtoolsrc.old ~/.mtoolsrc
 else
-	rm ~/.mtoolsrc
+    rm ~/.mtoolsrc
 fi

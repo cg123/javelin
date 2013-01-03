@@ -30,11 +30,11 @@ void cmain(void);
 
 void cmain(void)
 {
-	console_init(0);
-	const char* c = testMessage;
-	while (*c)
-	{
-		console_putc(*(c++));
-	}
-	console_sync_cursor();
+    console_init(0);
+    const char* c = testMessage;
+    while (*c)
+    {
+        console_putc(*(c++));
+    }
+    console_sync_cursor();
 }

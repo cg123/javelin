@@ -28,38 +28,38 @@
 #include <stdint.h>
 
 // console_init
-// 	Prepare the console for output.
+//  Prepare the console for output.
 // INPUTS:
-// 	int clear - If non-zero, clear the screen.
+//  int clear - If non-zero, clear the screen.
 void console_init(int clear);
 
 // console_putc
-// 	Print a single character to the console.
+//  Print a single character to the console.
 // INPUTS:
-// 	char c - The character to output.
+//  char c - The character to output.
 void console_putc(char c);
 
 // console_get_attribute
-// 	Return the current attribute byte.
+//  Return the current attribute byte.
 // RETURN:
-// 	The current attribute byte.
+//  The current attribute byte.
 uint8_t console_get_attribute(void);
 // console_set_attribute
-// 	Set the current attribute byte.
+//  Set the current attribute byte.
 // INPUTS:
-// 	uint8_t attr - A new value for the attribute byte.
+//  uint8_t attr - A new value for the attribute byte.
 void console_set_attribute(uint8_t attr);
 
 // console_get_cursor
-// 	Return the current position of the cursor.
+//  Return the current position of the cursor.
 // RETURN:
-// 	The position of the cursor, as number of characters past the
-// 	top-left corner of the screen.
+//  The position of the cursor, as number of characters past the
+//  top-left corner of the screen.
 int console_get_cursor(void);
 // console_set_cursor
 //  Set the current position of the cursor.
 // INPUTS:
-// 	int pos - The new position of the cursor.
+//  int pos - The new position of the cursor.
 void console_set_cursor(int pos);
 
 // console_sync_cursor

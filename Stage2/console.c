@@ -33,95 +33,95 @@ static uint8_t attribute;
 
 void console_init(int clear)
 {
-	cursor_pos = 0;
-	attribute = 0x0f;
-	if (clear)
-	{
-		uint32_t i;
-		for (i = 0; i < CON_WIDTH * CON_HEIGHT; i++)
-		{
-			VMEM_BASE[i*2 + 0] = ' ';
-			VMEM_BASE[i*2 + 1] = attribute;
-		}
-		console_sync_cursor();
-	}
-	else
-	{
-		outb(0x3D4, 0x0E);
-		cursor_pos = inb(0x3D5) << 8;
-		outb(0x3D4, 0x0F);
-		cursor_pos |= inb(0x3D5);
-	}
+    cursor_pos = 0;
+    attribute = 0x0f;
+    if (clear)
+    {
+        uint32_t i;
+        for (i = 0; i < CON_WIDTH * CON_HEIGHT; i++)
+        {
+            VMEM_BASE[i*2 + 0] = ' ';
+            VMEM_BASE[i*2 + 1] = attribute;
+        }
+        console_sync_cursor();
+    }
+    else
+    {
+        outb(0x3D4, 0x0E);
+        cursor_pos = inb(0x3D5) << 8;
+        outb(0x3D4, 0x0F);
+        cursor_pos |= inb(0x3D5);
+    }
 }
 
 void console_putc(char c)
 {
-	// Are we at the end of the screen?
-	if (cursor_pos >= CON_WIDTH*CON_HEIGHT)
-	{
-		// We are. Let's not be.
-		console_scroll();
-	}
+    // Are we at the end of the screen?
+    if (cursor_pos >= CON_WIDTH*CON_HEIGHT)
+    {
+        // We are. Let's not be.
+        console_scroll();
+    }
 
-	// In ASCII, everything below the space is a non-printing control
-	// character.
-	if (c < ' ')
-	{
-		switch(c)
-		{
-		case '\n':
-			cursor_pos += CON_WIDTH;
-			break;
-		case '\r':
-			cursor_pos -= cursor_pos % CON_WIDTH;
-			break;
-		default:
-			console_putc('?');
-			break;
-		}
-		return;
-	}
+    // In ASCII, everything below the space is a non-printing control
+    // character.
+    if (c < ' ')
+    {
+        switch(c)
+        {
+        case '\n':
+            cursor_pos += CON_WIDTH;
+            break;
+        case '\r':
+            cursor_pos -= cursor_pos % CON_WIDTH;
+            break;
+        default:
+            console_putc('?');
+            break;
+        }
+        return;
+    }
 
-	// If it's above the space? Let's just jam it into display memory.
-	VMEM_BASE[cursor_pos*2 + 0] = (uint8_t)c;
-	VMEM_BASE[cursor_pos*2 + 1] = attribute;
-	cursor_pos++;
+    // If it's above the space? Let's just jam it into display memory.
+    VMEM_BASE[cursor_pos*2 + 0] = (uint8_t)c;
+    VMEM_BASE[cursor_pos*2 + 1] = attribute;
+    cursor_pos++;
 }
 
 uint8_t console_get_attribute(void)
 {
-	return attribute;
+    return attribute;
 }
 void console_set_attribute(uint8_t attr)
 {
-	attribute = attr;
+    attribute = attr;
 }
 
 int console_get_cursor(void)
 {
-	return cursor_pos;
+    return cursor_pos;
 }
 void console_set_cursor(int pos)
 {
-	cursor_pos = pos;
+    cursor_pos = pos;
 }
 void console_sync_cursor(void)
 {
-	outb(0x3D4, 0x0F);
-	outb(0x3D5, (uint8_t)(cursor_pos & 0xFF));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (uint8_t)((cursor_pos >> 8) & 0xFF));
+    outb(0x3D4, 0x0F);
+    outb(0x3D5, (uint8_t)(cursor_pos & 0xFF));
+    outb(0x3D4, 0x0E);
+    outb(0x3D5, (uint8_t)((cursor_pos >> 8) & 0xFF));
 }
 
 
 void console_scroll(void)
 {
-	uint32_t i;
-	for (i = 0; i < CON_WIDTH * (CON_HEIGHT-1); i++)
-	{
-		VMEM_BASE[i*2 + 0] = VMEM_BASE[(i+CON_WIDTH)*2 + 0];
-		VMEM_BASE[i*2 + 1] = VMEM_BASE[(i+CON_WIDTH)*2 + 1];
-	}
-	cursor_pos -= CON_WIDTH;
-	console_sync_cursor();
+    uint32_t i;
+    for (i = 0; i < CON_WIDTH * (CON_HEIGHT-1); i++)
+    {
+        VMEM_BASE[i*2 + 0] = VMEM_BASE[(i+CON_WIDTH)*2 + 0];
+        VMEM_BASE[i*2 + 1] = VMEM_BASE[(i+CON_WIDTH)*2 + 1];
+    }
+    cursor_pos -= CON_WIDTH;
+    console_sync_cursor();
 }

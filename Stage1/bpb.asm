@@ -23,40 +23,40 @@
 
 bpb:
 bpb_oemName:
-	times 8 db 0; 'MSDOS5.0'
+    times 8 db 0; 'MSDOS5.0'
 bpb_bytesPerSector:
-	dw 0; 512
+    dw 0; 512
 bpb_sectorsPerCluster:
-	db 0; 1
+    db 0; 1
 bpb_reservedSectors:
-	dw 0
+    dw 0
 bpb_numFAT:
-	db 0; 2
+    db 0; 2
 bpb_numRootDirEntries:
-	dw 0; 128
+    dw 0; 128
 bpb_numSectors:
-	dw 0; 1
+    dw 0; 1
 bpb_mediaType:
-	db 0; 0xf8
+    db 0; 0xf8
 bpb_sectorsPerFAT:
-	dw 0; 9
+    dw 0; 9
 bpb_sectorsPerTrack:
-	dw 0; 18
+    dw 0; 18
 bpb_numHeads:
-	dw 0; 2
+    dw 0; 2
 bpb_numHiddenSectors:
-	dd 0
+    dd 0
 bpb_numSectorsHuge:
-	dd 0
+    dd 0
 bpb_driveNum:
-	db 0
+    db 0
 bpb_reserved:
-	db 0
+    db 0
 bpb_signature:
-	db 0; 0x29
+    db 0; 0x29
 bpb_volumeID:
-	dd 0; 0x9a3f175d
+    dd 0; 0x9a3f175d
 bpb_volumeLabel:
-	times 11 db 0; 'JAVELINBOOT'
+    times 11 db 0; 'JAVELINBOOT'
 bpb_fileSysType:
-	times 8 db 0; 'FAT12   '
+    times 8 db 0; 'FAT12   '
