@@ -35,9 +35,12 @@ section .bootstrap
 [bits 16]
 entry:
     cli
+
     xor ax,ax
     mov ss,ax
     mov sp,stacktop
+
+    push dx
 
     call enable_a20
     call real_to_pmode
@@ -45,6 +48,7 @@ entry:
     xchg bx, bx
 
     call cmain
+    add sp, 4
 
     xchg bx, bx
 

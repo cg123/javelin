@@ -136,8 +136,9 @@ find_stage2:
         jz .found
 
         ; It doesn't. Try the next one.
-        add di, 32
-        and di, ~31
+        add di, cx
+        add di, 21
+
         ; If we've reached the end of the sector, read another.
         cmp di, [bpb_bytesPerSector]
         jnz .check_name
@@ -161,6 +162,7 @@ read_stage2:
     cmp ax,0xFF8
     jl read_stage2
 
+    mov dl, [bpb_driveNum]
     jmp 0:STAGE2_BUFFER
 
 ; --------------------------------
@@ -189,7 +191,6 @@ read_cluster:
     pop cx
 .next_sector:
     rep call read_sector
-    ;loop .next_sector
 
     mov ax, [temp_cluster]
     ; Default to getting next sector for FAT16. If the actual
