@@ -29,6 +29,8 @@ extern pmode_to_real
 
 extern p2r_call
 
+extern cmain
+
 section .bootstrap
 [bits 16]
 entry:
@@ -40,6 +42,10 @@ entry:
 	call enable_a20
 	call real_to_pmode
 [bits 32]
+	xchg bx, bx
+
+	call cmain
+
 	xchg bx, bx
 
 	push 0x1234
