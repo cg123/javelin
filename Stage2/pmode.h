@@ -31,12 +31,12 @@
 //  Call a function in real mode.
 // INPUTS:
 //  void*    func - the physical address of the function to call
-//  uint16_t ax   - initial value for AX register
-//  uint16_t bx   - initial value for BX register
-//  uint16_t cx   - initial value for CX register
-//  uint16_t dx   - initial value for DX register
+//  uint32_t eax   - initial value for EAX register
+//  uint32_t ebx   - initial value for EBX register
+//  uint32_t ecx   - initial value for ECX register
+//  uint32_t edx   - initial value for EDX register
 // RETURN:
 //  Value of AX after function return
-uint32_t p2r_call(void* func, uint16_t ax, uint16_t bx, uint16_t cx, uint16_t dx);
+uint32_t p2r_call(void* func, uint32_t eax, uint32_t ebx, uint32_t ecx, uint32_t edx);
 
 #endif//_STAGE2_PMODE_H_

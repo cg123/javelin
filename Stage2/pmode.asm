@@ -27,12 +27,12 @@ section .text
 ; p2r_call
 ; Inputs:
 ;   [ESP+4]     - function to call in real mode
-;   [ESP+8]     - AX
-;   [ESP+12]    - BX
-;   [ESP+16]    - CX
-;   [ESP+20]    - DX
+;   [ESP+8]     - EAX
+;   [ESP+12]    - EBX
+;   [ESP+16]    - ECX
+;   [ESP+20]    - EDX
 ; Outputs:
-;   EAX     - zero-extended AX after call
+;   EAX     - EAX after call
 [global p2r_call]
 [bits 32]
 p2r_call:
@@ -47,18 +47,17 @@ p2r_call:
 [bits 16]
 
     ; Set registers from stack
-    mov ax, word [bp+12]
-    mov bx, word [bp+16]
-    mov cx, word [bp+20]
-    mov dx, word [bp+24]
+    mov eax, dword [bp+12]
+    mov ebx, dword [bp+16]
+    mov ecx, dword [bp+20]
+    mov edx, dword [bp+24]
 
     ; Call function
     mov di, word [bp+8]
     call di
 
-    ; Store resulting AX
-    push 0x0000
-    push ax
+    ; Store resulting EAX
+    push eax
 
     ; Return to protected mode
     call real_to_pmode
