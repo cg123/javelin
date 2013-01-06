@@ -40,6 +40,7 @@ entry:
     mov ss,ax
     mov sp,stacktop
 
+    push 0
     push dx
 
     call enable_a20
