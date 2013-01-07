@@ -25,7 +25,7 @@ include ../Makefile.inc
 
 CFLAGS := $(CFLAGS) -m32
 
-SRC = entry.asm pmode.asm int13h.asm console.c cmain.c
+SRC = entry.asm pmode.asm bios.asm console.c cmain.c
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(patsubst %.asm,$(OBJ_DIR)/%.o,$(SRC)))
 
 .PHONY: directories all clean
