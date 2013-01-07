@@ -46,26 +46,10 @@ entry:
     call enable_a20
     call real_to_pmode
 [bits 32]
-    xchg bx, bx
-
     call cmain
     add sp, 4
-
-    xchg bx, bx
-
-    push 0x1234
-    push 0x5678
-    push 0xabcd
-    push 0xef01
-    push dummy_test
-    call p2r_call
-    add esp, 5*4
-
     cli
     hlt
-
-dummy_test:
-    ret
 
 
 section .text
