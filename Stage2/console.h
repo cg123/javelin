@@ -39,6 +39,12 @@ void console_init(int clear);
 //  char c - The character to output.
 void console_putc(char c);
 
+// console_puts
+//  Print a zero-terminated string to the console.
+// INPUTS:
+//  char* s - The string to output.
+void console_puts(const char* s);
+
 // console_get_attribute
 //  Return the current attribute byte.
 // RETURN:

@@ -88,6 +88,14 @@ void console_putc(char c)
     cursor_pos++;
 }
 
+void console_puts(const char* s)
+{
+    while (*s)
+    {
+        console_putc(*(s++));
+    }
+}
+
 uint8_t console_get_attribute(void)
 {
     return attribute;
