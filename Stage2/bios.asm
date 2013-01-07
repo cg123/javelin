@@ -33,6 +33,29 @@ rm_i13h_call:
     ret
 
 ; --------------------------------
+; rm_i13h_buffer_call
+; Inputs:
+;   ECX     - 20-bit linear address to buffer
+[global rm_i13h_buffer_call]
+rm_i13h_buffer_call:
+    ; Save DS
+    push ds
+
+    ; Point DS:SI to the address in ECX
+    mov si, cx
+    and si,  0x00FFF
+    and ecx, 0xFF000
+    shr ecx, 4
+    mov ds, cx
+
+    ; Interrupt! Whooooooop.
+    int 13h
+
+    ; Restore DS
+    pop ds
+    ret
+
+; --------------------------------
 ; rm_i13h_has_ext
 ; Inputs:
 ;   DL      - drive number
@@ -44,7 +67,7 @@ rm_i13h_has_ext:
     mov bx, 0x55AA
     int 13h
     jc .no_extensions
-    
+
     cmp bx, 0xAA55
     jne .no_extensions
 
