@@ -24,7 +24,7 @@
 PREFIX=/usr/cross
 TARGET=x86_64-pc-elf
 
-CC=$(PREFIX)/bin/$(TARGET)-gcc
+CC=clang
 CXX=$(PREFIX)/bin/$(TARGET)-g++
 AS=`which yasm`
 LD=$(PREFIX)/bin/$(TARGET)-ld
@@ -34,9 +34,9 @@ WARNINGS= 	-Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
 			-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
 			-Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
 			-Wuninitialized -Wconversion -Wstrict-prototypes -Wswitch-default \
-			-Wstrict-overflow -Wtrampolines -Wno-multichar 
+			-Wstrict-overflow -Wno-multichar 
 
-CFLAGS=-Os -ffreestanding -std=c99 $(WARNINGS)
+CFLAGS=-target x86_64-pc-elf -Os -ffreestanding -std=c99 $(WARNINGS)
 
 $(OBJ_DIR)/%.o: %.asm
 	$(AS) $(ASFLAGS) $< -f elf -o $@
