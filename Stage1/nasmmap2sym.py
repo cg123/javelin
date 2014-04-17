@@ -29,7 +29,7 @@ symbol = re.compile(r"([0-9a-fA-F]+)[ \t]+([0-9a-fA-F]+)[ \t]+([a-zA-Z_0-9\.]+)"
 
 def main(argv):
     if len(argv) != 2:
-        print 'usage:\n\tpython %s <input>' % argv[0]
+        print('usage:\n\tpython %s <input>' % argv[0])
         return 1
     f = open(argv[1], 'r')
     data = f.readlines()
@@ -41,12 +41,12 @@ def main(argv):
         if m:
             chunks = m.group(1, 2, 3)
             if chunks[0] != chunks[1]:
-                print 'ERROR: %s != %s' % (chunks[0], chunks[1])
+                print('ERROR: %s != %s' % (chunks[0], chunks[1]))
                 return 1
             symbols.append((int(chunks[0], 16), chunks[2]))
     symbols.sort()
     for (addr, name) in symbols:
-        print hex(addr), name
+        print(hex(addr), name)
     return 0
 
 if __name__ == '__main__':
