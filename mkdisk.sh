@@ -38,8 +38,8 @@ FOLDER=$1
 
 # Calculate appropriate disk size
 FOLDER_SIZE_KB=`du -k $FOLDER | awk '{print $1}'`
-CYLINDERS=`python -c "from math import ceil; print int(ceil(ceil($FOLDER_SIZE_KB/1024.0)*1024*1024/16.0/63.0/512.0))"`
-IMAGE_SIZE_MB=`python -c "print \"%.2f\" % ($CYLINDERS*16*63*512/1024.0/1024.0)"`
+CYLINDERS=`python -c "from math import ceil; print(int(ceil(ceil($FOLDER_SIZE_KB/1024.0)*1024*1024/16.0/63.0/512.0)))"`
+IMAGE_SIZE_MB=`python -c "print(\"%.2f\" % ($CYLINDERS*16*63*512/1024.0/1024.0))"`
 echo "Image will be" $CYLINDERS "cylinders, or" $IMAGE_SIZE_MB "megabytes."
 
 
@@ -51,7 +51,7 @@ drive q:
     file=\"`pwd`/$IMAGE\" partition=1
 " > ~/.mtoolsrc
 
-mpartition -I -B mbr.bin q: 2>/dev/null
+mpartition -I -B mbr.bin q:
 mpartition -c -t $CYLINDERS -h 16 -s 63 q:
 mformat -v JAVELIN -B Stage1/bin/stage1.bin q:
 mcopy $FOLDER/* q:/

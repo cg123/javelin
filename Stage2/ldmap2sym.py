@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright (c) 2012, Charles O. Goddard
 # All rights reserved.
 #
@@ -26,7 +27,7 @@ import sys
 
 def main(argv):
     if len(argv) != 2:
-        print 'usage:\n\tpython %s <input>' % argv[0]
+        print('usage:\n\tpython %s <input>' % argv[0])
         return 1
     f = open(argv[1], 'r')
     data = f.readlines()
@@ -48,7 +49,7 @@ def main(argv):
 
     symbols.sort()
     for (addr, name) in symbols:
-        print hex(addr), name
+        print(hex(addr), name)
     return 0
 
 if __name__ == '__main__':
